@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>  
+        <meta charset="UTF-8">
+        <title>文件上传</title>
+    </head>
+    <body>  
+        <h1>文件上传系统</h1>
+        {%with msgs=get_flashed_messages() %}
+            {%for msg in msgs %}
+            {%if msg=='not_file' %}
+            <script>alert("上传信息中无file字段！");</script>
+            {%elif msg=='did_not_select_file' %}
+            <script>alert("请选择文件！");</script>
+            {%elif msg== 'error_file_type' %}
+            <script>alert("文件类型错误！");</script>
+            {%endif%}
+            {%endfor%}
+        {%endwith%}
+        {%if upload_success %}
+            <p>文件上传成功！存在：{{uploaded_file_url}}</p>
+            <a href="{{uploaded_file_url}}">查看图片</a>
+        {%endif%}
+        {%if logined_flag%}
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <label for="file">选择文件：</label><br>
+            <input type="file" id="file" name="file"><br>
+            <button type="submit">上传</button><br>
+            
+        </form>
+        {%else%}
+        <p>请先登录</p>
+        <a href="/login">登录</a>
+        {%endif%}
+    </body>
+</html>

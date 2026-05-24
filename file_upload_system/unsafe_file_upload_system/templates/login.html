@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <form action="/login"  method="post">   
+        <label for="username">Username:</label><br>
+        <input type="text" id="ant" name="ant"><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="pwd" name="pwd"><br>
+        <button type="submit">Login</button>
+    </form> 
+    <p>Not registered yet? <a href="/register">Register</a></p>
+    {%with msgs=get_flashed_messages()%}
+        {%for msg in msgs%}
+        {%if msg=='login_success_redirect'%}
+        <script>
+        var goProfile = confirm("Login success, redirect to profile page?");
+        if (goProfile) {
+        window.location.href = "/profile";
+        }
+        </script>
+        {% elif msg=='can_not_be_empty' %}
+        <script>
+        alert("账号和密码不能为空");
+        </script>
+        {%elif msg=='login_failed' %}
+        <script>
+        alert("登录错误");
+        </script>
+        {% endif %}
+        {%endfor%}
+        {%endwith%}
+</body>
+</html>

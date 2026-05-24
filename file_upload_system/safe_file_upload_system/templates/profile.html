@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>User Profile</title>
+</head>
+<body>
+    {%if session.get('user') %}
+    <h1>欢迎，{{session['user']}}</h1>
+    <a href="/upload">Upload File</a>
+    <a href="#" onclick="logout()">Logout</a>
+    <script>
+        function logout() {
+            var LogOut=confirm("确认退出?");
+            if(LogOut){
+                window.location.href="/logout";
+            }
+        }
+    </script>
+    {% else %}
+    <h1>请登录</h1>
+    <a href="/login">Login</a>
+    {% endif %}
+</body>
+</html>
