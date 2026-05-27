@@ -52,15 +52,19 @@ def login():
         return render_template('login.html')
     ant = request.form.get('ant')
     pwd = request.form.get('pwd')
+    con=None
+    cur=None
     if not ant or not pwd:
         flash('can_not_be_empty')
         return redirect(url_for('login'))
     try:
         con=get_db_con()
         cur=con.cursor()
-        check_sql="select * from `unsafe_table` where `ant`=%s and `pwd`=%s"
-        cur.execute(check_sql,(ant,pwd))
+        check_sql=f"select * from `unsafe_table` where `ant`= '{ant}' and `pwd`='{pwd}'"
+        print(check_sql)
+        cur.execute(check_sql)
         result=cur.fetchone()
+        print(result)
         if result :
             session['user']=ant
             session.permanent=True
@@ -73,7 +77,9 @@ def login():
             flash('登录失败'+str(e))
             return redirect(url_for('login'))
     finally:
+        if cur :
             cur.close()
+        if con :
             con.close()
 
 @app.route('/profile')
